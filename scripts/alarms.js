@@ -4,7 +4,8 @@ let Alarms = (function(Alarm, Storage, Util) {
   let _timer = null;
   let _storage = null;
   let _timestamps = {}
-  let _updateFunction = null;
+  let _renderAlarmsList = null;
+  let _updateWallClock = null;
 
   function init(){
     _storage = new Storage('alarm-clock');
@@ -21,11 +22,12 @@ let Alarms = (function(Alarm, Storage, Util) {
   function secondTimer() {
     let timestamp = Util.getTimestampSecond(new Date());
     let alarmName = _timestamps[timestamp];
+    _updateWallClock(Util.dateToDigit(new Date()));
 
     if(alarmName) {
       let alarm = get(alarmName);
       alarm.goOff();
-      _updateFunction();
+      _renderAlarmsList();
     }
   }
 
@@ -67,15 +69,16 @@ let Alarms = (function(Alarm, Storage, Util) {
     return alarmsList;
   }
 
-  function setUpdateFunction(updateFunction) {
-    _updateFunction = updateFunction;
+  function setUpdateFunctions({ renderAlarmsList, updateWallClock }) {
+    _renderAlarmsList = renderAlarmsList;
+    _updateWallClock = updateWallClock;
   }
 
   _this.get = get;
   _this.create = create;
   _this.clear = clear;
   _this.getAll = getAll;
-  _this.setUpdateFunction = setUpdateFunction;
+  _this.setUpdateFunctions = setUpdateFunctions;
 
   init();
 

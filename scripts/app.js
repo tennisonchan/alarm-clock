@@ -9,11 +9,14 @@ let App = (function(window, _, Alarms, Util) {
     listGroupItemTemplate: document.querySelector('#list-group-item-template'),
     noAlarmSetTemplate: document.querySelector('#no-alarm-set-template'),
     alarmClose: document.querySelectorAll('.close'),
+    wallClock: document.querySelector('#wall-clock'),
   }
 
   function init() {
     setAlarmDigit(new Date());
-    Alarms.setUpdateFunction(renderAlarmsList);
+    Alarms.setUpdateFunctions({
+      renderAlarmsList, updateWallClock
+    });
     renderAlarmsList();
 
     if (window.Notification && Notification.permission !== "granted") {
@@ -123,6 +126,10 @@ let App = (function(window, _, Alarms, Util) {
     } else {
       selectors.alarmList.innerHTML = _.template(selectors.noAlarmSetTemplate.textContent)();
     }
+  }
+
+  function updateWallClock(currentDigit) {
+    selectors.wallClock.textContent = currentDigit.map(Util.addZero).join(':');
   }
 
   function createAlarmListItem(options) {
