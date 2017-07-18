@@ -1,0 +1,86 @@
+<html lang="en">
+<head>
+  <title>Alarm Clock</title>
+  <meta charset="utf-8">
+  <meta name="description" content="Alarm Clock">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="images/alarm-clock.png" />
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/fonts/glyphicons-halflings-regular.woff2"></link>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"></link>
+  <link rel="stylesheet" href="styles/style.css"></link>
+
+  <!--[if lt IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.js"></script>
+<![endif]-->
+</head>
+
+<body>
+  <div class="container">
+    <section class="alarm-container">
+      <div class="alarm-digits">
+          <div class="alarm-digit">
+              <button class="increase btn btn-default" data-cycle="24">
+                  <span class="glyphicon glyphicon-menu-up"></span>
+              </button>
+              <input class="alarm-digit-input" data-digit="0" type="text" value="00" data-cycle="24" readonly>
+              <button class="decrease btn btn-default" data-cycle="24">
+                  <span class="glyphicon glyphicon-menu-down"></span>
+              </button>
+          </div>
+          <div class="alarm-digit">
+              <button class="increase btn btn-default" data-cycle="60">
+                  <span class="glyphicon glyphicon-menu-up"></span>
+              </button>
+              <input class="alarm-digit-input" data-digit="1" type="text" value="00" data-cycle="60" readonly>
+              <button class="decrease btn btn-default" data-cycle="60">
+                  <span class="glyphicon glyphicon-menu-down"></span>
+              </button>
+          </div>
+      </div>
+      <div class="alarm-message-wrapper row">
+        <div class="col-lg-12">
+          <div class="input-group">
+            <input id="alarm-message-input" type="text" class="form-control" placeholder="Alarm Message...">
+            <span class="input-group-btn">
+              <button id="add-alarm-button" class="btn btn-default" type="button">Add</button>
+            </span>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="alarm-list">
+      <h2 class="alarm-list__title">Alarms</h2>
+      <ul class="alarm-list__list list-group"></ul>
+    </section>
+</body>
+
+<script type="text/template" id="list-group-item-template">
+  <li id="alarm-<%= id %>" class="list-group-item <%= wentOff ? '' : 'active-alarm' %>">
+    <div class="container-fluid">
+      <div class="row">
+        <span class="list-group-item-heading"><%= timeDisplay %></span>
+        <span class="led-green" title="<%= wentOff ? 'went off' : 'up coming' %>"></span>
+        <button data-id="<%= id %>" class="close btn btn-default glyphicon glyphicon-remove"></button>
+        <div class="material-switch pull-right">
+          <input type="checkbox" class="active-alarm-input" data-active-id="<%= id %>" id="active-<%= id %>" <%= active ? 'checked' : '' %>>
+          <label for="active-<%= id %>" class="label-success"></label>
+        </div>
+      </div>
+      <div class="row">
+        <p class="alarm-message list-group-item-text"><%= message %></p>
+      </div>
+    </div>
+  </li>
+</script>
+
+<script type="text/template" id="no-alarm-set-template">
+  <li class="alarm-list__list-item list-group-item">No Alarms Set</li>
+</script>
+
+<script src="./scripts/lodash.min.js"></script>
+<script src="./scripts/storage.js"></script>
+<script src="./scripts/util.js"></script>
+<script src="./scripts/alarm.js"></script>
+<script src="./scripts/alarms.js"></script>
+<script src="./scripts/app.js"></script>
+</html>
